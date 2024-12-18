@@ -1,0 +1,3 @@
+package projecthamada;
+
+@license(LGPL);
