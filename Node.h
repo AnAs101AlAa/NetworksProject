@@ -32,17 +32,6 @@ using namespace omnetpp;
 class Node : public cSimpleModule
 {
   protected:
-    int currMessage; //index of frame to be sent in messageBuff
-    string* currWindow;
-    cMessage** timers;
-    vector<string> messageBuff; //buffer that has all messages read from file
-    CustomMessage_Base* messageOut; //the custom message that contains all to be sent out for current message
-
-    int buffered; //amount of busy buffers of current window
-    int ack_expected; //lower edge of sender window
-    int next_frame; //upper edge of sender window
-    int expected_frame; //frame to be received (receiver window)
-    bool nackOn; // flag for nack on message
 
     int windowSize; //static window size = 5
     float transmissionDelay; //delay of sending frame
@@ -52,20 +41,8 @@ class Node : public cSimpleModule
     float timeoutTime; //interval for a frame to re-transmit
     float lossProb; //probability of dropping a frame send
 
-    virtual void increment(int& num);
-    virtual bool between(int a,int b,int c);
-    virtual void startTimer(int seq_num);
-    virtual void stopTimer(int seq_num);
-    virtual string from_buffer();
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
-    virtual void readDataFile(char node_id);
-    virtual void frameData(string payload);
-    virtual void deframeData(CustomMessage_Base* msg);
-    virtual void parityApply(string payload);
-    virtual bool parityCheck(CustomMessage_Base* msg);
-    virtual void processMessage(int target);
-    virtual void sendMessage(int target, float dealy, bool errorAdd);
 };
 
 #endif
