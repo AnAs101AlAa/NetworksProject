@@ -30,6 +30,65 @@ void Node::initialize()
 }
 
 
+void Node::readDataFile(char node_id) {
+    string path = "./node";
+    path+= node_id;
+    path+= ".txt";
+    ifstream readFile (path);
+    string currLine;
+    while(getline(readFile,currLine)) {
+        message_buffer.push_back(currLine);
+    }
+}
+
+void Node::frameData(string payload) {
+
+    string data = "$";
+    for (int i = 0; i < payload.size(); i++)
+    {
+        if (payload[i] == '$' || payload[i] == '\\')
+        {
+            data += '\\';
+        }
+        data += payload[i];
+        
+    }
+    data += '$';
+    msgOut->setPayload(data.c_str());
+}
+
+void Node::deframeData(CustomMessage_Base* msg)
+{
+    string data = msg->getPayload();
+    string payload = "";
+    for (int i = 1; i < data.size() - 1; i++)
+    {
+        if (data[i] == '\\')
+        {
+            i++;
+        }
+        payload += data[i];
+    }
+    msg->setPayload(payload.c_str());
+}
+
+void Node::parityApply(string payload) {
+    bitset<8> bits(payload[0]);
+    for(int i=1;i<payload.size();i++) {
+        bits ^= bitset<8>(payload[i]);
+    }
+    msgOut->setParity((char)bits.to_ulong());
+}
+
+bool Node::parityCheck(CustomMessage_Base* msg) {
+    string data = msg->getPayload();
+    bitset<8> bits(data[0]);
+    for(int i=1;i<data.size();i++) {
+        bits ^= bitset<8>(data[i]);
+    }
+    return ((char)bits.to_ulong() == msg->getParity());
+}
+
 void Node::handleMessage(cMessage *msg)
 {
     if (strcmp(msg->getClassName(), "omnetpp::cMessage") == 0) {

@@ -33,6 +33,12 @@ class Node : public cSimpleModule
 {
   protected:
 
+
+
+    vector<string> message_buffer; //buffer for storing read
+    CustomMessage_Base *msgOut; // our messege
+    
+    
     int windowSize; //static window size = 5
     float transmissionDelay; //delay of sending frame
     float processTime; //delay for processing any frame to be sent
@@ -43,6 +49,14 @@ class Node : public cSimpleModule
 
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
+
+    virtual void readDataFile(char node_id);
+
+    virtual void frameData(string payload);
+    virtual void deframeData(CustomMessage_Base* msg);
+
+    virtual void parityApply(string payload);
+    virtual bool parityCheck(CustomMessage_Base* msg);
 };
 
 #endif
