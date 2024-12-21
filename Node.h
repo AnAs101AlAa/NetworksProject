@@ -57,6 +57,9 @@ class Node : public cSimpleModule
 
     virtual void parityApply(string payload);
     virtual bool parityCheck(CustomMessage_Base* msg);
+
+    virtual void increnebt(int &num);
+    virtual void between(int a, int b, int c);
 };
 
 #endif

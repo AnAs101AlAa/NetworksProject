@@ -89,6 +89,14 @@ bool Node::parityCheck(CustomMessage_Base* msg) {
     return ((char)bits.to_ulong() == msg->getParity());
 }
 
+void Node::increment(int &num) {
+    num = (num + 1) % (windowSize + 1);
+}
+
+bool Node::between(int a, int b, int c) {
+    return (((a <= b) && (b < c)) || ((c < a) && (a <= b)) || ((b < c) && (c < a)));
+}
+
 void Node::handleMessage(cMessage *msg)
 {
     if (strcmp(msg->getClassName(), "omnetpp::cMessage") == 0) {
