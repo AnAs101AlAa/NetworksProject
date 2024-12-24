@@ -70,6 +70,13 @@ class Node : public cSimpleModule
     virtual string from_buffer();
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
+    virtual void readDataFile();
+    virtual void frameData(string payload);
+    virtual void deframeData(CustomMessage_Base* msg);
+    virtual void parityApply(string payload);
+    virtual bool parityCheck(CustomMessage_Base* msg);
+    virtual void processMessage(int target);
+    virtual void sendMessage(int target, float dealy, string commands, bool dupped);
 };
 
 #endif
