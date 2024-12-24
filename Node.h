@@ -21,6 +21,8 @@
 #include <fstream>
 #include <string>
 #include <bitset>
+#include<regex>
+#include<algorithm>
 #include "customMessage_m.h"
 using namespace std;
 
@@ -32,7 +34,23 @@ using namespace omnetpp;
 class Node : public cSimpleModule
 {
   protected:
+    //---------------------------------<data members for containers and pointers>----------------------------------//
+    int currMessage; //index of frame to be sent in messageBuff
+    string* currWindow; //array for current messages in the window
+    string* commandWindow; //window to carry command bits
+    cMessage* scheduledChain; //pointer to the self message of sending more lines (needed for duplication filtering)
+    cMessage** timers; //array of pointers to timers of each frame in window
+    vector<string> messageBuff; //buffer that has all messages read from file
+    CustomMessage_Base* messageOut; //the custom message that contains all to be sent out for current message
 
+    //---------------------------------<data members for go back n implementation>---------------------------------//
+    int buffered; //amount of busy buffers of current window
+    int ack_expected; //lower edge of sender window
+    int next_frame; //upper edge of sender window
+    int expected_frame; //frame to be received (receiver window)
+    bool nackOn; // flag for nack on message
+
+    //---------------------------------<data members for simulation constants>-------------------------------------//
     int windowSize; //static window size = 5
     float transmissionDelay; //delay of sending frame
     float processTime; //delay for processing any frame to be sent
@@ -41,8 +59,24 @@ class Node : public cSimpleModule
     float timeoutTime; //interval for a frame to re-transmit
     float lossProb; //probability of dropping a frame send
 
+    ofstream writeFile;
+    char node_id;
+
+    virtual void mergeFiles();
+    virtual void increment(int& num);
+    virtual bool between(int a,int b,int c);
+    virtual void startTimer(int seq_num);
+    virtual void stopTimer(int seq_num);
+    virtual string from_buffer();
     virtual void initialize() override;
     virtual void handleMessage(cMessage *msg) override;
+    virtual void readDataFile();
+    virtual void frameData(string payload);
+    virtual void deframeData(CustomMessage_Base* msg);
+    virtual void parityApply(string payload);
+    virtual bool parityCheck(CustomMessage_Base* msg);
+    virtual void processMessage(int target);
+    virtual void sendMessage(int target, float dealy, string commands, bool dupped);
 };
 
 #endif

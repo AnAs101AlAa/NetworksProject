@@ -25,15 +25,15 @@ network Network
         coordinator: Coordinator {
             @display("p=421,333");
         }
-        node: Node {
+        node0: Node {
             @display("p=171,165");
         }
         node1: Node {
             @display("p=656,165");
         }
     connections:
-        node1.out --> IdealChannel --> node.in[0];
-        node.out --> IdealChannel --> node1.in[0];
-        coordinator.out[0] --> IdealChannel --> node.in[1];
+        node1.out --> IdealChannel --> node0.in[0];
+        node0.out --> IdealChannel --> node1.in[0];
+        coordinator.out[0] --> IdealChannel --> node0.in[1];
         coordinator.out[1] --> IdealChannel --> node1.in[1];
 }
