@@ -17,14 +17,9 @@ The Go-Back-N protocol is an **ARQ (Automatic Repeat reQuest) protocol** that en
 ✔ **Log visualization for debugging**  
 
 ## 🚀 Usage
-You can tweak the simulation settings to test different scenarios and analyze the performance of Go-Back-N in various network conditions.
+You can take this code and tweak it to test different error loads, different data framing algorithms and such.
+code is written in OOP format so you can add or remove from it more easily independant of GBN functionality.
 
 ## 🤝 Contributions
-Feel free to submit **issues** or **pull requests** to improve the simulation.
-
-## 📄 License
-This project is licensed under the **MIT License**.
-
-## 📩 Contact
-For questions or collaboration, reach out via [your.email@example.com](mailto:your.email@example.com).
+Lots of thanks to omar elshreef for helping in code writing, testing, and simulation optimization.
 
