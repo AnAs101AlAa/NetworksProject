@@ -21,5 +21,5 @@ You can take this code and tweak it to test different error loads, different dat
 code is written in OOP format so you can add or remove from it more easily independant of GBN functionality.
 
 ## 🤝 Contributions
-Lots of thanks to omar elshreef for helping in code writing, testing, and simulation optimization.
+Lots of thanks to @omarElshreef for helping in code writing, testing, and simulation optimization.
 
